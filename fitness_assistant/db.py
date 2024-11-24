@@ -1,9 +1,12 @@
 import os
 import psycopg2
 from psycopg2.extras import DictCursor
-from datetime import datetime
+from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
+RUN_TIMEZONE_CHECK = os.getenv('RUN_TIMEZONE_CHECK', '1') == '1'
+
+TZ_INFO = os.getenv("TZ", "Europe/London")
 tz = ZoneInfo("Europe/London")
 
 

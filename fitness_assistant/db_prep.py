@@ -2,11 +2,10 @@ import os
 import requests
 import pandas as pd
 from tqdm.auto import tqdm
-# from dotenv import load_dotenv
-
+from dotenv import load_dotenv
 from db import init_db
 
-# load_dotenv()
+load_dotenv()
 
 if __name__ == "__main__":
     print("Initializing database...")
