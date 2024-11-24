@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 
 from rag import rag
 
+import db
 
 app = Flask(__name__)
 
@@ -18,13 +19,20 @@ def handle_question():
 
     conversation_id = str(uuid.uuid4())
 
-    answer = rag(question)
+    answer_data = rag(question)
 
     result = {
         "conversation_id": conversation_id,
         "question": question,
-        "answer": answer,
+        "answer": answer_data["answer"],
     }
+
+
+    db.save_conversation(
+        conversation_id=conversation_id, 
+        question=question, 
+        answer_data,
+    )
 
     return jsonify(result)
 

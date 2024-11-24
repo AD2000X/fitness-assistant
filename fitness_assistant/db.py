@@ -31,7 +31,6 @@ def init_db():
                     id TEXT PRIMARY KEY,
                     question TEXT NOT NULL,
                     answer TEXT NOT NULL,
-                    course TEXT NOT NULL,
                     model_used TEXT NOT NULL,
                     response_time FLOAT NOT NULL,
                     relevance TEXT NOT NULL,
@@ -59,7 +58,7 @@ def init_db():
         conn.close()
 
 
-def save_conversation(conversation_id, question, answer_data, course, timestamp=None):
+def save_conversation(conversation_id, question, answer_data, timestamp=None):
     if timestamp is None:
         timestamp = datetime.now(tz)
     
@@ -69,7 +68,7 @@ def save_conversation(conversation_id, question, answer_data, course, timestamp=
             cur.execute(
                 """
                 INSERT INTO conversations 
-                (id, question, answer, course, model_used, response_time, relevance, 
+                (id, question, answer, model_used, response_time, relevance, 
                 relevance_explanation, prompt_tokens, completion_tokens, total_tokens, 
                 eval_prompt_tokens, eval_completion_tokens, eval_total_tokens, openai_cost, timestamp)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, COALESCE(%s, CURRENT_TIMESTAMP))
@@ -78,7 +77,6 @@ def save_conversation(conversation_id, question, answer_data, course, timestamp=
                     conversation_id,
                     question,
                     answer_data["answer"],
-                    course,
                     answer_data["model_used"],
                     answer_data["response_time"],
                     answer_data["relevance"],

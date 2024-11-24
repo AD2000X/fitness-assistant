@@ -6,12 +6,21 @@ import ingest
 
 from openai import OpenAI
 
+
 client = OpenAI()
 index = ingest.load_index()
 
 
 def search(query):
-    boost = {'question': 3.0, 'section': 0.5}
+    boost = {
+        'exercise_name': 1.9777,
+        'type_of_activity': 0.0102,
+        'type_of_equipment': 0.0080,
+        'body_part': 1.8424,
+        'type': 0.8076,
+        'muscle_groups': 2.9760,
+        'instructions': 1.0320
+    }
 
     results = index.search(
         query=query,
@@ -66,4 +75,18 @@ def rag(query):
     search_results = search(query)
     prompt = build_prompt(query, search_results)
     answer = llm(prompt)
+
+    # answer_data["answer"],
+    # answer_data["model_used"],
+    # answer_data["response_time"],
+    # answer_data["relevance"],
+    # answer_data["relevance_explanation"],
+    # answer_data["prompt_tokens"],
+    # answer_data["completion_tokens"],
+    # answer_data["total_tokens"],
+    # answer_data["eval_prompt_tokens"],
+    # answer_data["eval_completion_tokens"],
+    # answer_data["eval_total_tokens"],
+    # answer_data["openai_cost"],
+
     return answer
