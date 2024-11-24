@@ -27,7 +27,6 @@ def handle_question():
         "answer": answer_data["answer"],
     }
 
-
     db.save_conversation(
         conversation_id=conversation_id, 
         question=question, 
