@@ -4,11 +4,6 @@ from psycopg2.extras import DictCursor
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
-RUN_TIMEZONE_CHECK = os.getenv('RUN_TIMEZONE_CHECK', '1') == '1'
-
-TZ_INFO = os.getenv("TZ", "Europe/London")
-tz = ZoneInfo("Europe/London")
-
 
 def get_db_connection():
     return psycopg2.connect(
@@ -72,7 +67,7 @@ def save_conversation(conversation_id, question, answer_data, timestamp=None):
                 relevance_explanation, prompt_tokens, completion_tokens, total_tokens, 
                 eval_prompt_tokens, eval_completion_tokens, eval_total_tokens, openai_cost, timestamp)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """,
+                """,
                 (
                     conversation_id,
                     question,

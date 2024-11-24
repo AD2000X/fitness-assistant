@@ -84,7 +84,7 @@ def rag(query, model="gpt-4o-mini"):
         "answer": answer,
         "model_used": model,
         "response_time": took,
-        "relevance": 0,
+        "relevance": "RELEVANT",
         "relevance_explanation": "",
         "prompt_tokens": len(prompt.split()),
         "completion_tokens": len(answer.split()),
