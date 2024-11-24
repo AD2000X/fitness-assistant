@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+openai = "*"
+scikit-learn = "*"
+pandas = "*"
+flask = "*"
+psycopg2-binary = "*"
+python-dotenv = "*"
+gunicorn = "*"
+
+[dev-packages]
+tqdm = "*"
+notebook = "==7.1.2"
+ipywidgets = "*"
+hyperopt = {extras = ["all"], version = "*"}
+optuna = "*"
+requests = "*"
+
+[requires]
+python_version = "3.12"
