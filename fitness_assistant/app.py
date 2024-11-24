@@ -31,7 +31,7 @@ def handle_question():
     db.save_conversation(
         conversation_id=conversation_id, 
         question=question, 
-        answer_data,
+        answer_data=answer_data,
     )
 
     return jsonify(result)

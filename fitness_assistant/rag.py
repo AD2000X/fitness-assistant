@@ -2,9 +2,9 @@ import json
 
 from time import time
 
-import ingest
-
 from openai import OpenAI
+
+import ingest
 
 
 client = OpenAI()
@@ -62,19 +62,40 @@ def build_prompt(query, search_results):
     return prompt
 
 
-def llm(prompt):
+def llm(prompt, model="gpt-4o-mini"):
     response = client.chat.completions.create(
-        model='gpt-4o-mini',
-        messages=[{"role": "user", "content": prompt}]
+        model=model, messages=[{"role": "user", "content": prompt}]
     )
 
     return response.choices[0].message.content
 
 
-def rag(query):
+def rag(query, model="gpt-4o-mini"):
+    t0 = time()
+
     search_results = search(query)
     prompt = build_prompt(query, search_results)
-    answer = llm(prompt)
+    answer, token_stats = llm(prompt, model=model)
+
+    t1 = time()
+    took = t1 - t0
+
+    answer_data = {
+        "answer": answer,
+        "model_used": model,
+        "response_time": took,
+        "relevance": relevance.get("Relevance", "UNKNOWN"),
+        "relevance_explanation": relevance.get(
+            "Explanation", "Failed to parse evaluation"
+        ),
+        "prompt_tokens": token_stats["prompt_tokens"],
+        "completion_tokens": token_stats["completion_tokens"],
+        "total_tokens": token_stats["total_tokens"],
+        "eval_prompt_tokens": rel_token_stats["prompt_tokens"],
+        "eval_completion_tokens": rel_token_stats["completion_tokens"],
+        "eval_total_tokens": rel_token_stats["total_tokens"],
+        "openai_cost": openai_cost,
+    }
 
     # answer_data["answer"],
     # answer_data["model_used"],
@@ -89,4 +110,4 @@ def rag(query):
     # answer_data["eval_total_tokens"],
     # answer_data["openai_cost"],
 
-    return answer
+    return answer_data
